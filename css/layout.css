@@ -449,7 +449,7 @@
     border-bottom-right-radius:2rem;}
 
 [center-text]{
-   overflow:hidden;
+   text-align:center;
 }
 [shadow-z-1]{
     -webkit-box-shadow:3px 3px 5px rgba(44,44,44,0.7);
@@ -471,10 +471,42 @@
     -webkit-box-shadow:13px 13px 25px rgba(44,44,44,0.7);
             box-shadow:13px 13px 25px rgba(44,44,44,0.7);
 }
-
-
-
-
+[main-center]{
+    justify-content: center;
+}
+[main-start]{
+    justify-content: flex-start;
+}
+[main-end]{
+    justify-content: flex-end;
+}
+[main-space-between]{
+    justify-content: space-between;
+}
+[main-space-around]{
+    justify-content: space-around;
+}
+[cross-center]{
+    align-content:center;
+}
+[cross-start]{
+    align-content:flex-start;
+}
+[cross-end]{
+    align-content:flex-end;
+}
+[cross-stretch]{
+    align-content:stretch;
+}
+[cross-space-between]{
+    align-content:space-between;
+}
+[cross-space-around]{
+    align-content:space-around;
+}
+[hidden]{
+    display:none;
+}
     /* Custom, iPhone Retina 20rem */ 
     @media only screen and (min-width : 320px) {
         [container]{
@@ -484,27 +516,27 @@
             flex-flow:row wrap;
             justify-content:center;
         }
-        [screen-min-320-column-1]{
+        [min-320-col-1]{
             width: 100%;
             display:inline-block;   
         }
-        [screen-min-320-column-2]{
+        [min-320-col-2]{
             width: 50%;
             display:inline-block;
         }
-        [screen-min-320-column-3]{
+        [min-320-col-3]{
             width: 33.3333333333%;
             display:inline-block;
         }
-        [screen-min-320-column-4]{
+        [min-320-col-4]{
             width: 25%;
             display:inline-block;
         }
-        [screen-min-320-column-5]{
+        [min-320-col-5]{
             width: 20%;
             display:inline-block;
         }
-        [screen-min-320-column-6]{
+        [min-320-col-6]{
             width: 16.6666666666667%;
             display:inline-block;
         }
@@ -519,27 +551,27 @@
             flex-flow:row wrap;
             justify-content:center;
         }
-        [screen-min-480-column-1]{
+        [min-480-col-1]{
             width: 100%;
             display:inline-block;
         }
-        [screen-min-480-column-2]{
+        [min-480-col-2]{
             width: 50%;
             display:inline-block;
         }
-        [screen-min-480-column-3]{
+        [min-480-col-3]{
             width: 33.3333333333%;
             display:inline-block;
         }
-        [screen-min-480-column-4]{
+        [min-480-col-4]{
             width: 25%;
             display:inline-block;
         }
-        [screen-min-480-column-5]{
+        [min-480-col-5]{
             width: 20%;
             display:inline-block;
         }
-        [screen-min-480-column-6]{
+        [min-480-col-6]{
             width: 16.6666666666667%;
             display:inline-block;
         }
@@ -554,27 +586,27 @@
             flex-flow:row wrap;
             justify-content:center;
         }
-        [screen-min-768-column-1]{
+        [min-768-col-1]{
             width: 100%;
             display:inline-block;
         }
-        [screen-min-768-column-2]{
+        [min-768-col-2]{
             width: 50%;
             display:inline-block;
         }
-        [screen-min-768-column-3]{
+        [min-768-col-3]{
             width: 33.3333333333%;
             display:inline-block;
         }
-        [screen-min-768-column-4]{
+        [min-768-col-4]{
             width: 25%;
             display:inline-block;
         }
-        [screen-min-768-column-5]{
+        [min-768-col-5]{
             width: 20%;
             display:inline-block;
         }
-        [screen-min-768-column-6]{
+        [min-768-col-6]{
             width: 16.6666666666667%;
             display:inline-block;
         }
@@ -589,28 +621,29 @@
             flex-flow:row wrap;
             justify-content:center;
         }
-        [screen-min-992-column-1]{
+        [min-992-col-1]{
             width: 100%;
             display:inline-block;
         }
-        [screen-min-992-column-2]{
+        [min-992-col-2]{
             width: 50%;
             display:inline-block;
         }
-        [screen-min-992-column-3]{
+        [min-992-col-3]{
             width: 33.3333333333%;
             display:inline-block;
         }
-        [screen-min-992-column-4]{
+        [min-992-col-4]{
             width: 25%;
             display:inline-block;
         }
-        [screen-min-992-column-5]{
+        [min-992-col-5]{
             width: 20%;
             display:inline-block;
         }
-        [screen-min-992-column-6]{
+        [min-992-col-6]{
             width: 16.6666666666667%;
             display:inline-block;
         }
     }
+
