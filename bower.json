@@ -1,0 +1,24 @@
+{
+  "name": "layout-tests",
+  "version": "0.1.0",
+  "authors": [
+    "Per-Håkan Westman <ph@aspsele.nu>"
+  ],
+  "description": "Finding a comfortable way to create necessary layouts",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "www.aspsele.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "zepto": "~1.1.6",
+    "zeptotouch": "~1.1.4"
+  }
+}

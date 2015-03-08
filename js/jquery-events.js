@@ -7,7 +7,7 @@ $('[hero-animation]').on('tap', function(e){
 
 	var offset = element.offset();
 
-	var $overlay= $('<div/>').attr("fit",".").css({
+	var $overlay= $('<div hero-screen/>').attr("fit",".").css({
 		"-webkit-transition":"-webkit-transform 200ms ease-in",
 		"transition":"transform 200ms ease-in"
 	}).on('tap', function(){
@@ -38,29 +38,6 @@ $('[hero-animation]').on('tap', function(e){
             //$('#content').css("-webkit-overflow-scrolling", "touch");                   
             $overlay.remove();
         }, 200);
-	}).on('swipeUp', function(){
-		$overlay.css("-webkit-transform","translate(0,-100%)");
-		$overlay.css("transform","translate(0,-100%)");
-        element.children().css("opacity","1");
-        element.parent().parent().children().css("opacity","1");
-        setTimeout(function(){
-        	//Enable scrolling on main content again.
-            //$('#content').css("overflow","scroll");
-            //$('#content').css("-webkit-overflow-scrolling", "touch");                   
-            $overlay.remove();
-
-        }, 200);
-	}).on('swipeDown', function(){
-		$overlay.css("-webkit-transform","translate(0,100%)");
-		$overlay.css("transform","translate(0,100%)");
-        element.children().css("opacity","1");
-        element.parent().parent().children().css("opacity","1");		
-        setTimeout(function(){
-        	//Enable scrolling on main content again.
-            //$('#content').css("overflow","scroll");
-            //$('#content').css("-webkit-overflow-scrolling", "touch");                   
-            $overlay.remove();
-        }, 200);
 	});
 	var container = $('<div/>');
 	$overlay.append(container)
@@ -71,8 +48,9 @@ $('[hero-animation]').on('tap', function(e){
 	animateInRow(offset.top-64,element.children(), container);
 
 });
-function animateInRow(top,items,parent,count){
-	if (items.length == count || (top < 0 && count == -1)) {
+function animateInRow(top,items,parent,count,reverse){
+	var primaryTop = top; 
+	if (items.length == count || (reverse && count == -1)) {
 		//items.last().css("box-shadow", "0 4px 2px -2px gray");
 
 		return;
@@ -80,25 +58,48 @@ function animateInRow(top,items,parent,count){
 	if (count == null) {
 		if (top < 0){
 			count = items.length - 1;
+			reverse = true;
 		}else{
 			count = 0;
+			reverse = false;
 		}
 	}
 	//TODO if top is negative, then we need to reverse the order in which the items are animated.
 	//that means, start with items.length and make counter go down.
 	var percentSpeed = top / $(window).height();
-	var animateTime = 300 * percentSpeed;
-	if (animateTime < 100) animateTime = 100;
+	var animateTime = 100 * percentSpeed;
+	if (animateTime < 50) animateTime = 50;
 	setTimeout(function(){
 
+		if ($(document).width() > 767 ){
+			console.log('recalculate top');
+			console.log('count: ' + count);
+			if (reverse){
+				top = top + ((items.eq(count).height() * 0.5  ) / 2);  	
+			}else{
+				top = top - ((items.eq(count).height() * 0.5  ) / 2);  
+			}
+		}		
+
 		animateToTop(top,items.eq(count),parent);
-		if (top < 0){
+
+		if ($(document).width() > 767 ){
+			console.log('recalculate top');
+			console.log('count: ' + count);
+			if (reverse){
+				top = top + ((items.eq(count).height() * 0.5  ) / 2);  	
+			}else{
+				top = top - ((items.eq(count).height() * 0.5  ) / 2);  
+			}
+		}
+
+		if (reverse){
 			count--;
 		} else {
 			count++;	
 		}
 		
-		animateInRow(top,items,parent,count);
+		animateInRow(top,items,parent,count,reverse);
 	},animateTime);
 };
 function animateToTop(relativePx, item,parent){
@@ -111,10 +112,8 @@ function animateToTop(relativePx, item,parent){
 
 	var animatee = item.clone();
 
-	translateLeft = (item.closest('[container]').width() - item.width()) / 2;
-	if (item.offset().left > (item.closest('[container]').width() / 2)){
-		translateLeft = translateLeft * -1;
-	}
+	translateLeft = ( item.offset().left - (item.closest('[container]').width() / 2 - item.width() / 2 ) ) * -1
+
 	animatee.offset(item.offset());
 	animatee.css({
 		"width": item.css("width"), 
@@ -128,13 +127,22 @@ function animateToTop(relativePx, item,parent){
 		console.log('hidden element');
 		item.removeAttr("hidden");
 		animatee.css({"width": item.css("width")});
-		relativePx =  $(window).height() - (item.offset().top - relativePx);
+
+		if ($(document).width() > 767 ){
+			console.log('recalculate top');
+			console.log('count: hidden');
+			//top = top - ((items.eq(count).height() * 0.5) / 2);  
+			relativePx =  $(window).height() - (item.offset().top - ( relativePx - ((item.height() * 0.25) )));
+
+		}else
+		{
+		relativePx =  $(window).height() - (item.offset().top - relativePx);	
+		}
+
+		
 		animatee.offset({top: $(window).height(), left:item.offset().left})
 		animatee.removeAttr("hidden");
-		translateLeft = (item.closest('[container]').width() - item.width()) / 2;
-		if (item.offset().left > (item.closest('[container]').width() / 2)){
-			translateLeft = translateLeft * -1;
-		}		
+		translateLeft = ( item.offset().left - (item.closest('[container]').width() / 2 - item.width() / 2 ) ) * -1
 		item.attr("hidden","");
 	}
 
@@ -150,11 +158,20 @@ function animateToTop(relativePx, item,parent){
 	
 	
 	setTimeout(function(){
-		animatee.css({
-			"-webkit-transform":"translate(" + translateLeft + "px," + relativePx * -1 + "px)",
-			"transform":"translate(" + translateLeft + "px," + relativePx * -1 + "px)",
-			"opacity":"1"
-		});
+		if ($(document).width()>767){
+			animatee.css({
+				"-webkit-transform":"translate(" + translateLeft + "px," + relativePx * -1 + "px) scale(1.5,1.5)",
+				"transform":"translate(" + translateLeft + "px," + relativePx * -1 + "px) scale(1.5,1.5)",
+				"opacity":"1"
+			});	
+		} else {
+			animatee.css({
+				"-webkit-transform":"translate(" + translateLeft + "px," + relativePx * -1 + "px)",
+				"transform":"translate(" + translateLeft + "px," + relativePx * -1 + "px)",
+				"opacity":"1"
+			});
+		}
 		item.css("opacity","0.1");
+
 	}, 150);
 }
